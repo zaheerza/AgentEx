@@ -24,11 +24,11 @@ class Settings:
         # =================================================================
         # API Keys - LLM Providers
         # =================================================================
-        # Groq - Currently required
-        self.groq_api_key = os.getenv("GROQ_API_KEY")
-
-        # Anthropic (Claude) - Optional
+        # Anthropic (Claude) - Currently required
         self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+
+        # Groq - Optional (for future multi-provider support)
+        self.groq_api_key = os.getenv("GROQ_API_KEY")
 
         # OpenAI (GPT) - Optional
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -39,11 +39,11 @@ class Settings:
         # =================================================================
         # Model Configuration
         # =================================================================
-        # Groq model (currently active)
-        self.model = os.getenv("GROQ_MODEL", "mixtral-8x7b-32768")
+        # Anthropic model (currently active)
+        self.model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
 
-        # Optional: Anthropic, OpenAI, HuggingFace models
-        self.anthropic_model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
+        # Optional: Other provider models
+        self.groq_model = os.getenv("GROQ_MODEL", "mixtral-8x7b-32768")
         self.openai_model = os.getenv("OPENAI_MODEL", "gpt-4")
         self.huggingface_model = os.getenv("HUGGINGFACE_MODEL", "meta-llama/Llama-2-70b-chat-hf")
 
@@ -66,18 +66,18 @@ class Settings:
         Returns:
             True if valid, False otherwise
         """
-        if not self.groq_api_key:
+        if not self.anthropic_api_key:
             print("\n" + "="*60)
-            print("❌ Error: GROQ_API_KEY not configured")
+            print("❌ Error: ANTHROPIC_API_KEY not configured")
             print("="*60)
-            print("\nThe system requires a Groq API key to function.")
+            print("\nThe system requires an Anthropic API key to function.")
             print("\nOption 1: Create a .env file (Recommended)")
             print("  1. Copy the example: cp .env.example .env")
             print("  2. Edit .env and add your key:")
-            print("     GROQ_API_KEY=gsk_your-key-here")
-            print("  3. Get a key from: https://console.groq.com/")
+            print("     ANTHROPIC_API_KEY=sk-ant-your-key-here")
+            print("  3. Get a key from: https://console.anthropic.com/")
             print("\nOption 2: Set environment variable")
-            print("  export GROQ_API_KEY='your-api-key'")
+            print("  export ANTHROPIC_API_KEY='your-api-key'")
             print("\nSee ENV_SETUP.md for detailed instructions.")
             print("="*60 + "\n")
             return False
@@ -93,10 +93,10 @@ class Settings:
         """
         providers = []
 
-        if self.groq_api_key:
-            providers.append("groq")
         if self.anthropic_api_key:
             providers.append("anthropic")
+        if self.groq_api_key:
+            providers.append("groq")
         if self.openai_api_key:
             providers.append("openai")
         if self.huggingface_api_key:
