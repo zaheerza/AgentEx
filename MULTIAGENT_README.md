@@ -53,9 +53,17 @@ An orchestrated multi-agent system where:
 # Install dependencies
 pip install -r requirements.txt
 
-# Set your API key
+# Set up your API keys (choose one method)
+
+# Method 1: Using .env file (Recommended)
+cp .env.example .env
+# Then edit .env and add your API keys
+
+# Method 2: Environment variable
 export ANTHROPIC_API_KEY='your-anthropic-api-key'
 ```
+
+**📖 For detailed setup instructions, see [ENV_SETUP.md](ENV_SETUP.md)**
 
 ### 2. Run the Assistant
 
