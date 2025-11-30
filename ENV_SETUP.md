@@ -31,11 +31,11 @@ Replace the placeholder values with your actual API keys:
 
 ```bash
 # Required for current system
-ANTHROPIC_API_KEY=sk-ant-your-actual-key-here
+GROQ_API_KEY=gsk_your-actual-key-here
 
-# Optional - for future multi-provider support
+# Optional - for alternative/enhanced LLM capabilities
+ANTHROPIC_API_KEY=sk-ant-your-anthropic-key-here
 OPENAI_API_KEY=sk-your-openai-key-here
-GROQ_API_KEY=gsk_your-groq-key-here
 HUGGINGFACE_API_KEY=hf_your-huggingface-key-here
 ```
 
@@ -49,9 +49,40 @@ python main.py
 
 ## Supported LLM Providers
 
-### Anthropic (Claude) - **Currently Active**
+### Groq - **Currently Active** ⚡
 
 **Required for:** The entire multi-agent system
+
+**Why Groq?**
+- ⚡ Lightning-fast inference (fastest LLM API available)
+- 💰 Generous free tier with good rate limits
+- 🎯 Great performance on reasoning tasks
+- 🔓 Open-source models (Mixtral, Llama, Gemma)
+
+**Get your API key:**
+1. Visit: https://console.groq.com/
+2. Sign up or log in (free account available)
+3. Go to API Keys section
+4. Create a new API key
+5. Copy and paste into `.env`:
+   ```
+   GROQ_API_KEY=gsk_xxxxxxxxxxxxx
+   ```
+
+**Usage in system:**
+- Orchestrator Agent uses Groq for fast intent recognition
+- Research Agent uses Groq for reasoning and tool use
+- All agents use Groq as their default LLM brain
+- Default model: Mixtral-8x7B (excellent reasoning capabilities)
+
+**Available models:**
+- `mixtral-8x7b-32768` - Best for complex reasoning (default)
+- `llama2-70b-4096` - Strong alternative
+- `gemma-7b-it` - Lightweight option
+
+### Anthropic (Claude) - **Optional** 🧠
+
+**Optional for:** Enhanced reasoning on complex tasks
 
 **Get your API key:**
 1. Visit: https://console.anthropic.com/
@@ -63,12 +94,13 @@ python main.py
    ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxx
    ```
 
-**Usage in system:**
-- Orchestrator Agent uses Claude for intent recognition
-- Research Agent uses Claude for reasoning and tool use
-- All agents inherit Claude as their LLM brain
+**Use cases:**
+- Alternative LLM backend for agents requiring highest quality
+- Complex reasoning tasks
+- Multi-model comparison
+- Longer context windows
 
-### OpenAI (GPT) - **Future Support**
+### OpenAI (GPT) - **Optional**
 
 **Get your API key:**
 1. Visit: https://platform.openai.com/api-keys
@@ -79,26 +111,10 @@ python main.py
    OPENAI_API_KEY=sk-xxxxxxxxxxxxx
    ```
 
-**Future use cases:**
+**Use cases:**
 - Alternative LLM backend for agents
 - Embeddings for semantic search
 - Multi-model comparison
-
-### Groq - **Future Support**
-
-**Get your API key:**
-1. Visit: https://console.groq.com/
-2. Sign up or log in
-3. Create API key
-4. Copy and paste into `.env`:
-   ```
-   GROQ_API_KEY=gsk_xxxxxxxxxxxxx
-   ```
-
-**Future use cases:**
-- Ultra-fast inference for simple tasks
-- Cost-effective alternative for high-volume queries
-- Mix of models for different agent types
 
 ### HuggingFace - **Future Support**
 
@@ -122,17 +138,27 @@ python main.py
 
 ```bash
 # =============================================================================
-# ANTHROPIC (Claude) - Required
+# GROQ - Required
+# =============================================================================
+# Get your key: https://console.groq.com/
+# Free tier available with generous rate limits
+GROQ_API_KEY=gsk_your-key-here
+
+# Optional: Specify Groq model
+# Default: mixtral-8x7b-32768
+GROQ_MODEL=mixtral-8x7b-32768
+
+# =============================================================================
+# ANTHROPIC (Claude) - Optional
 # =============================================================================
 # Get your key: https://console.anthropic.com/
 ANTHROPIC_API_KEY=sk-ant-your-key-here
 
 # Optional: Specify Claude model version
-# Default: claude-sonnet-4-5-20250929
-CLAUDE_MODEL=claude-sonnet-4-5-20250929
+ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
 
 # =============================================================================
-# OPENAI (GPT) - Optional (Future)
+# OPENAI (GPT) - Optional
 # =============================================================================
 # Get your key: https://platform.openai.com/api-keys
 OPENAI_API_KEY=sk-your-key-here
@@ -141,16 +167,7 @@ OPENAI_API_KEY=sk-your-key-here
 OPENAI_MODEL=gpt-4
 
 # =============================================================================
-# GROQ - Optional (Future)
-# =============================================================================
-# Get your key: https://console.groq.com/
-GROQ_API_KEY=gsk-your-key-here
-
-# Optional: Specify Groq model
-GROQ_MODEL=mixtral-8x7b-32768
-
-# =============================================================================
-# HUGGINGFACE - Optional (Future)
+# HUGGINGFACE - Optional
 # =============================================================================
 # Get your key: https://huggingface.co/settings/tokens
 HUGGINGFACE_API_KEY=hf_your-key-here
@@ -232,8 +249,8 @@ python
 >>> from dotenv import load_dotenv
 >>> load_dotenv()
 True
->>> os.getenv('ANTHROPIC_API_KEY')
-'sk-ant-...'  # Should show your key
+>>> os.getenv('GROQ_API_KEY')
+'gsk_...'  # Should show your key
 >>> exit()
 ```
 
@@ -264,7 +281,7 @@ python main.py
 
 ## Troubleshooting
 
-### Error: "ANTHROPIC_API_KEY environment variable not set"
+### Error: "GROQ_API_KEY not configured"
 
 **Solution:**
 ```bash
@@ -272,14 +289,14 @@ python main.py
 ls -la .env
 
 # 2. Check .env has the key
-cat .env | grep ANTHROPIC_API_KEY
+cat .env | grep GROQ_API_KEY
 
 # 3. Make sure no extra spaces
-# Wrong:  ANTHROPIC_API_KEY = sk-ant-...
-# Right:  ANTHROPIC_API_KEY=sk-ant-...
+# Wrong:  GROQ_API_KEY = gsk_...
+# Right:  GROQ_API_KEY=gsk_...
 
 # 4. Try running with explicit load
-python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('ANTHROPIC_API_KEY'))"
+python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('GROQ_API_KEY'))"
 ```
 
 ### Error: "API key invalid"
@@ -306,18 +323,18 @@ When multi-provider support is added, you'll be able to configure which LLM each
 ```python
 # config/agent_models.yaml (Future)
 orchestrator:
-  primary: anthropic/claude-sonnet-4-5
-  fallback: openai/gpt-4
+  primary: groq/mixtral-8x7b  # Fast intent recognition
+  fallback: anthropic/claude-sonnet
 
 research_agent:
   primary: groq/mixtral-8x7b  # Fast for research
   fallback: anthropic/claude-haiku
 
 feedback_agent:
-  primary: anthropic/claude-haiku  # Cheap for simple tasks
+  primary: groq/llama2-70b  # Fast for simple tasks
 
 writing_agent:
-  primary: anthropic/claude-sonnet-4-5  # Best quality
+  primary: anthropic/claude-sonnet-4-5  # Best quality for writing
   fallback: openai/gpt-4
 ```
 
@@ -325,9 +342,9 @@ writing_agent:
 
 ```bash
 # Use different models for different tasks
-FAST_MODEL=groq/mixtral-8x7b          # Simple queries
-BALANCED_MODEL=anthropic/claude-haiku  # Most tasks
-QUALITY_MODEL=anthropic/claude-sonnet  # Complex reasoning
+FAST_MODEL=groq/mixtral-8x7b           # Simple queries (FREE!)
+BALANCED_MODEL=groq/llama2-70b         # Most tasks (FREE!)
+QUALITY_MODEL=anthropic/claude-sonnet  # Complex reasoning (Paid)
 ```
 
 ## Integration with Python Code
@@ -343,8 +360,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Access variables
-api_key = os.getenv("ANTHROPIC_API_KEY")
-model = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929")
+api_key = os.getenv("GROQ_API_KEY")
+model = os.getenv("GROQ_MODEL", "mixtral-8x7b-32768")
+
+# Optional providers
+anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+openai_key = os.getenv("OPENAI_API_KEY")
 ```
 
 ## Environment File Locations
@@ -361,10 +382,10 @@ The system looks for `.env` files in this order:
 
 ```bash
 # In .env file
-CLAUDE_MODEL=claude-opus-4-5-20250929  # Switch to Opus for better quality
+GROQ_MODEL=llama2-70b-4096  # Switch to Llama2 for different performance
 
 # Or temporarily via command line
-CLAUDE_MODEL=claude-haiku python main.py  # One-time override
+GROQ_MODEL=gemma-7b-it python main.py  # One-time override
 ```
 
 ### Enable Verbose Logging
@@ -384,18 +405,18 @@ DB_PATH=/path/to/custom/location/memory.db
 ## Next Steps
 
 1. ✅ Create your `.env` file from `.env.example`
-2. ✅ Add your Anthropic API key (required)
-3. ✅ Optionally add other provider keys for future use
+2. ✅ Add your Groq API key (required - free tier available!)
+3. ✅ Optionally add other provider keys for enhanced capabilities
 4. ✅ Test the system with `python test_system.py`
 5. ✅ Start using the assistant with `python main.py`
 
 ## Getting Help
 
 **API Key Issues:**
-- Anthropic: https://docs.anthropic.com/
-- OpenAI: https://platform.openai.com/docs
-- Groq: https://console.groq.com/docs
-- HuggingFace: https://huggingface.co/docs
+- Groq: https://console.groq.com/docs (Required)
+- Anthropic: https://docs.anthropic.com/ (Optional)
+- OpenAI: https://platform.openai.com/docs (Optional)
+- HuggingFace: https://huggingface.co/docs (Optional)
 
 **System Issues:**
 - Check `test_system.py` output

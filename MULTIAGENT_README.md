@@ -57,10 +57,10 @@ pip install -r requirements.txt
 
 # Method 1: Using .env file (Recommended)
 cp .env.example .env
-# Then edit .env and add your API keys
+# Then edit .env and add your Groq API key
 
 # Method 2: Environment variable
-export ANTHROPIC_API_KEY='your-anthropic-api-key'
+export GROQ_API_KEY='your-groq-api-key'
 ```
 
 **📖 For detailed setup instructions, see [ENV_SETUP.md](ENV_SETUP.md)**
