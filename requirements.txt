@@ -1,5 +1,12 @@
+# Core dependencies for the multi-agent system
 anthropic>=0.34.0
-langchain>=0.1.0
-langchain-anthropic>=0.1.0
-openai>=1.0.0
+
+# Optional: For environment variable management
 python-dotenv>=1.0.0
+
+# Future integrations (not required for Phase 1)
+# langchain>=0.1.0
+# langchain-anthropic>=0.1.0
+# chromadb>=0.4.0  # For vector storage
+# google-api-python-client>=2.0.0  # For Google Docs/Keep
+# requests>=2.31.0  # For API calls
